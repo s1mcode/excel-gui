@@ -49,10 +49,10 @@ class ExcelProcessor(QMainWindow):
     @pyqtSlot()
     def downloadFile(self):
         options = QFileDialog.Options()
-        fileName, _ = QFileDialog.getSaveFileName(self, "保存文件", "", "Excel Files (*.xls *.xlsx)", options=options)
+        fileName, _ = QFileDialog.getSaveFileName(self, "保存文件", "", "Excel Files (*.xlsx)", options=options)
         if fileName:
             # 保存处理后的文件
-            self.df.to_excel(fileName, index=False)
+            self.df.to_excel(fileName, index=False, engine='openpyxl')
             print("文件保存成功")
 
 
