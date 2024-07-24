@@ -2,12 +2,21 @@ import sys
 import pandas as pd
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget, QFileDialog
 from PyQt5.QtCore import pyqtSlot
+from ui_ExcelProcessor import Ui_MainWindow
+from qt_material import apply_stylesheet
 
-class ExcelProcessor(QMainWindow):
+
+class ExcelProcessor(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
 
-        self.initUI()
+        # 初始化 UI
+        self.setupUi(self)
+        # self.initUI()
+
+        self.uploadBtn.clicked.connect(self.uploadFile)
+        self.downloadBtn.clicked.connect(self.downloadFile)
+        self.downloadBtn.setEnabled(False)
 
     def initUI(self):
         self.setWindowTitle('Excel处理器')
@@ -45,6 +54,7 @@ class ExcelProcessor(QMainWindow):
         # 示例：创建一个新列
         self.df['新列'] = 'test'
         print("文件处理完成")
+        self.showStatusMessage("文件处理完成")
 
     @pyqtSlot()
     def downloadFile(self):
@@ -55,9 +65,23 @@ class ExcelProcessor(QMainWindow):
             self.df.to_excel(fileName, index=False, engine='openpyxl')
             print("文件保存成功")
 
+    def showStatusMessage(self, message):
+        """在statusbar上显示信息"""
+        self.statusbar.showMessage(message)
+
 
 if __name__ == '__main__':
+
     app = QApplication(sys.argv)
+
+    extra = {
+        'font_family': 'STHeiti',
+        'font_size': 20,
+    }
+
+    # 应用样式
+    apply_stylesheet(app, theme='dark_blue.xml', extra=extra)
+
     ex = ExcelProcessor()
     ex.show()
     sys.exit(app.exec_())
