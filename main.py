@@ -76,7 +76,7 @@ if __name__ == '__main__':
 
     extra = {
         'font_family': 'STHeiti',
-        'font_size': 20,
+        'font_size': 18,
     }
 
     # 应用样式
